@@ -28,7 +28,7 @@ type LoginRequest struct {
 }
 
 type SearchArtistRequst struct {
-	ArtistName   string  `json:"artistName" binding:"required"`
+	ArtistName   string  `json:"artistName"`
 	MinPriceRate int64   `json:"minPriceRate"`
 	MaxPriceRate int64   `json:"maxPriceRate"`
 	MinRating    float32 `json:"minRating"`
@@ -37,8 +37,8 @@ type SearchArtistRequst struct {
 }
 
 type SearchResultResponse struct {
-	Username string  `json:"username" binding:"required"`
-	Name     string  `json:"name" binding:"required"`
-	Surname  string  `json:"surname" binding:"required"`
+	Username string  `json:"username"`
+	Name     string  `json:"name"`
+	Surname  string  `json:"surname"`
 	Rating   float32 `json:"rating"`
 }
