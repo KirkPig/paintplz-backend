@@ -1,4 +1,4 @@
-package main
+package services
 
 type GetTagResponse struct {
 	Tags []Tag `json:"tags" binding:"required"`
