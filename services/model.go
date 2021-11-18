@@ -42,3 +42,23 @@ type SearchResultResponse struct {
 	Surname  string  `json:"surname"`
 	Rating   float32 `json:"rating"`
 }
+
+type ArtWorkResponse struct {
+	ArtWorkID   string `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	UploadDate  string `json:"uploadDate"`
+	Url         string `json:"url"`
+	Tags        []Tag  `json:"tags"`
+}
+
+type ArtistProfileResponse struct {
+	Username        string            `json:"username" binding:"required"`
+	Name            string            `json:"name" binding:"required"`
+	Surname         string            `json:"surname" binding:"required"`
+	Rating          float32           `json:"rating"`
+	MinPriceRate    int64             `json:"minPriceRate"`
+	MaxPriceRate    int64             `json:"maxPriceRate"`
+	Biography       string            `json:"biography"`
+	ArtWorkResponse []ArtWorkResponse `json:"artworks"`
+}
