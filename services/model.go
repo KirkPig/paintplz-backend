@@ -10,7 +10,7 @@ type UploadArtworkRequest struct {
 
 type EditArtworkRequest struct {
 	UserID             int64  `json:"userID" binding:"required"`
-	ArtworkID          int    `json:"artworkID" binding:"required"`
+	ArtworkID          int64  `json:"artworkID" binding:"required"`
 	ArtworkName        string `json:"artworkName"`
 	ArtworkDescription string `json:"artworkDescription"`
 	ArtTag             []Tag  `json:"artTag"`
@@ -90,7 +90,7 @@ type ArtWorkResponse struct {
 }
 
 type ArtistProfileResponse struct {
-	UserID          string            `json:"userID"`
+	UserID          int64             `json:"userID"`
 	Username        string            `json:"username"`
 	Name            string            `json:"name"`
 	Surname         string            `json:"surname"`
