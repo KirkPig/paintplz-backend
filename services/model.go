@@ -1,7 +1,7 @@
 package services
 
 type UploadArtworkRequest struct {
-	UserID             int64  `json:"userID" binding:"required"`
+	UserID             string `json:"userID" binding:"required"`
 	ArtworkName        string `json:"artworkName" binding:"required"`
 	ArtworkDescription string `json:"artworkDescription"`
 	ArtTag             []Tag  `json:"artTag"`
@@ -9,8 +9,8 @@ type UploadArtworkRequest struct {
 }
 
 type EditArtworkRequest struct {
-	UserID             int64  `json:"userID" binding:"required"`
-	ArtworkID          int64  `json:"artworkID" binding:"required"`
+	UserID             string `json:"userID" binding:"required"`
+	ArtworkID          string `json:"artworkID" binding:"required"`
 	ArtworkName        string `json:"artworkName"`
 	ArtworkDescription string `json:"artworkDescription"`
 	ArtTag             []Tag  `json:"artTag"`
@@ -18,8 +18,8 @@ type EditArtworkRequest struct {
 }
 
 type DeleteArtworkRequest struct {
-	UserID    int64 `json:"userID" binding:"required"`
-	ArtworkID int64 `json:"artworkID" binding:"required"`
+	UserID    string `json:"userID" binding:"required"`
+	ArtworkID string `json:"artworkID" binding:"required"`
 }
 
 type GetTagResponse struct {
@@ -50,7 +50,7 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	UserID       int64   `json:"userID" binding:"required"`
+	UserID       string  `json:"userID" binding:"required"`
 	Username     string  `json:"username" binding:"required"`
 	Name         string  `json:"name" binding:"required"`
 	Surname      string  `json:"surname" binding:"required"`
@@ -73,7 +73,7 @@ type SearchArtistRequest struct {
 }
 
 type SearchResultResponse struct {
-	UserID   int64   `json:"userID"`
+	UserID   string  `json:"userID"`
 	Username string  `json:"username"`
 	Name     string  `json:"name"`
 	Surname  string  `json:"surname"`
@@ -90,7 +90,7 @@ type ArtWorkResponse struct {
 }
 
 type ArtistProfileResponse struct {
-	UserID          int64             `json:"userID"`
+	UserID          string            `json:"userID"`
 	Username        string            `json:"username"`
 	Name            string            `json:"name"`
 	Surname         string            `json:"surname"`
