@@ -1,7 +1,7 @@
 package services
 
 type UploadArtworkRequest struct {
-	Username           string `json:"username" binding:"required"`
+	UserID             int64  `json:"userID" binding:"required"`
 	ArtworkName        string `json:"artworkName" binding:"required"`
 	ArtworkDescription string `json:"artworkDescription"`
 	ArtTag             []Tag  `json:"artTag"`
@@ -9,7 +9,7 @@ type UploadArtworkRequest struct {
 }
 
 type EditArtworkRequest struct {
-	Username           string `json:"username" binding:"required"`
+	UserID             int64  `json:"userID" binding:"required"`
 	ArtworkID          int    `json:"artworkID" binding:"required"`
 	ArtworkName        string `json:"artworkName"`
 	ArtworkDescription string `json:"artworkDescription"`
@@ -18,8 +18,8 @@ type EditArtworkRequest struct {
 }
 
 type DeleteArtworkRequest struct {
-	Username  string `json:"username" binding:"required"`
-	ArtworkID int    `json:"artworkID" binding:"required"`
+	UserID    int64 `json:"userID" binding:"required"`
+	ArtworkID int64 `json:"artworkID" binding:"required"`
 }
 
 type GetTagResponse struct {
@@ -32,21 +32,35 @@ type Tag struct {
 }
 
 type RegisterRequest struct {
-	Username     string `json:"username" binding:"required"`
-	Name         string `json:"name" binding:"required"`
-	Surname      string `json:"surname" binding:"required"`
-	Email        string `json:"email" binding:"required"`
-	CitizenID    string `json:"citizenID" binding:"required"`
-	Password     string `json:"password" binding:"required"`
-	UserType     bool   `json:"userType" binding:"required"`
-	MinPriceRate int64  `json:"minPriceRate"`
-	MaxPriceRate int64  `json:"maxPriceRate"`
-	Biography    string `json:"biography"`
+	Username     string  `json:"username" binding:"required"`
+	Name         string  `json:"name" binding:"required"`
+	Surname      string  `json:"surname" binding:"required"`
+	Email        string  `json:"email" binding:"required"`
+	CitizenID    string  `json:"citizenID" binding:"required"`
+	Password     string  `json:"password" binding:"required"`
+	UserType     bool    `json:"userType" binding:"required"`
+	MinPriceRate float64 `json:"minPriceRate"`
+	MaxPriceRate float64 `json:"maxPriceRate"`
+	Biography    string  `json:"biography"`
 }
 
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
+}
+
+type LoginResponse struct {
+	UserID       int64   `json:"userID" binding:"required"`
+	Username     string  `json:"username" binding:"required"`
+	Name         string  `json:"name" binding:"required"`
+	Surname      string  `json:"surname" binding:"required"`
+	Email        string  `json:"email" binding:"required"`
+	CitizenID    string  `json:"citizenID" binding:"required"`
+	Password     string  `json:"password" binding:"required"`
+	UserType     bool    `json:"userType" binding:"required"`
+	MinPriceRate float64 `json:"minPriceRate"`
+	MaxPriceRate float64 `json:"maxPriceRate"`
+	Biography    string  `json:"biography"`
 }
 
 type SearchArtistRequest struct {
@@ -59,7 +73,7 @@ type SearchArtistRequest struct {
 }
 
 type SearchResultResponse struct {
-	UserID   string  `json:"userID"`
+	UserID   int64   `json:"userID"`
 	Username string  `json:"username"`
 	Name     string  `json:"name"`
 	Surname  string  `json:"surname"`
@@ -81,8 +95,8 @@ type ArtistProfileResponse struct {
 	Name            string            `json:"name"`
 	Surname         string            `json:"surname"`
 	Rating          float32           `json:"rating"`
-	MinPriceRate    int64             `json:"minPriceRate"`
-	MaxPriceRate    int64             `json:"maxPriceRate"`
+	MinPriceRate    float64           `json:"minPriceRate"`
+	MaxPriceRate    float64           `json:"maxPriceRate"`
 	Biography       string            `json:"biography"`
 	ArtWorkResponse []ArtWorkResponse `json:"artworks"`
 }
