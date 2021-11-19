@@ -21,17 +21,9 @@ type EditArtworkRequest struct {
 	ArtworkUrl         string `json:"artworkUrl"`
 }
 
-type EditArtworkResponse struct {
-	Log string `json:"log"`
-}
-
 type DeleteArtworkRequest struct {
 	Username  string `json:"username" binding:"required"`
 	ArtworkID int    `json:"artworkID" binding:"required"`
-}
-
-type DeleteArtworkResponse struct {
-	Log string `json:"log"`
 }
 
 type GetTagResponse struct {
@@ -61,7 +53,7 @@ type LoginRequest struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type SearchArtistRequst struct {
+type SearchArtistRequest struct {
 	ArtistName   string  `json:"artistName"`
 	MinPriceRate int64   `json:"minPriceRate"`
 	MaxPriceRate int64   `json:"maxPriceRate"`
@@ -71,6 +63,7 @@ type SearchArtistRequst struct {
 }
 
 type SearchResultResponse struct {
+	UserID   string  `json:"userID"`
 	Username string  `json:"username"`
 	Name     string  `json:"name"`
 	Surname  string  `json:"surname"`
@@ -87,9 +80,10 @@ type ArtWorkResponse struct {
 }
 
 type ArtistProfileResponse struct {
-	Username        string            `json:"username" binding:"required"`
-	Name            string            `json:"name" binding:"required"`
-	Surname         string            `json:"surname" binding:"required"`
+	UserID          string            `json:"userID"`
+	Username        string            `json:"username"`
+	Name            string            `json:"name"`
+	Surname         string            `json:"surname"`
 	Rating          float32           `json:"rating"`
 	MinPriceRate    int64             `json:"minPriceRate"`
 	MaxPriceRate    int64             `json:"maxPriceRate"`
