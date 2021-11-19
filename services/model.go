@@ -8,10 +8,6 @@ type UploadArtworkRequest struct {
 	ArtworkUrl         string `json:"artworkUrl" binding:"required"`
 }
 
-type UploadArtworkResponse struct {
-	Log string `json:"log"`
-}
-
 type EditArtworkRequest struct {
 	Username           string `json:"username" binding:"required"`
 	ArtworkID          int    `json:"artworkID" binding:"required"`
