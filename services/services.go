@@ -185,31 +185,23 @@ func (s *Service) UploadArtwork(req UploadArtworkRequest) error {
 	if err != nil {
 		panic(err)
 	}
-	tag_name := ""
-	tag_id := ""
-	for id, x := range req.ArtTag {
-		tag_id += x.TagId
-		tag_name += x.TagName
-		if id+1 < len(req.ArtTag) {
-			tag_id += ","
-			tag_name += ","
-		}
+	tag_id := make([]string, len(req.ArtTag))
+	tag_name := make([]string, len(req.ArtTag))
+	for i := 0; i < len(req.ArtTag); i += 1 {
+		tag_id[i] = req.ArtTag[i].TagId
+		tag_name[i] = req.ArtTag[i].TagName
 	}
-	return s.database.UploadArtwork(req.UserID, artUUID.String(), req.ArtworkName, req.ArtworkDescription, tag_id, tag_name, req.ArtworkUrl)
+	return s.database.UploadArtwork(req.UserID, artUUID.String(), req.ArtworkName, req.ArtworkDescription, req.ArtworkUrl, tag_id, tag_name)
 }
 
 func (s *Service) EditArtwork(req EditArtworkRequest) error {
-	tag_name := ""
-	tag_id := ""
-	for id, x := range req.ArtTag {
-		tag_id += x.TagId
-		tag_name += x.TagName
-		if id+1 < len(req.ArtTag) {
-			tag_id += ","
-			tag_name += ","
-		}
+	tag_id := make([]string, len(req.ArtTag))
+	tag_name := make([]string, len(req.ArtTag))
+	for i := 0; i < len(req.ArtTag); i += 1 {
+		tag_id[i] = req.ArtTag[i].TagId
+		tag_name[i] = req.ArtTag[i].TagName
 	}
-	return s.database.EditArtwork(req.UserID, req.ArtworkID, req.ArtworkName, req.ArtworkDescription, tag_id, req.ArtworkUrl)
+	return s.database.EditArtwork(req.UserID, req.ArtworkID, req.ArtworkName, req.ArtworkDescription, req.ArtworkUrl, tag_id, tag_name)
 }
 
 func (s *Service) DeleteArtwork(req DeleteArtworkRequest) error {

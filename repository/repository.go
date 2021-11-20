@@ -165,20 +165,51 @@ func (db *GromDB) GetAllTag() ([]Tag, error) {
 
 }
 
-func (db *GromDB) UploadArtwork(userID, artID, artTitle, artDesc, tagID, tagName, url string) error {
-	return db.database.Raw("call Upload(?, ?, ?, ?, ?, ?, ?)", userID, artID, artTitle, artDesc, tagID, url).Error
+func (db *GromDB) UploadArtwork(userID, artID, artTitle, artDesc, url string, tag_id, tag_name []string) error {
+	query := `INSERT INTO ARTWORK(ART_ID,ART_URL,ART_TITLE,ART_DESC,ARTIST_USER_ID)
+	VALUES (?, ?, ?, ?, ?)`
+	/**
+	query := `INSERT INTO ARTWORK(ART_ID,ART_URL,ART_TITLE,ART_DESC,ARTIST_USER_ID)
+	VALUES (@artId, @artUrl, @artTitle, @artDesc, @userID)`
+	*/
+	uploadErr := db.database.Raw(query, artID, url, artTitle, artDesc, userID).Error
+	if uploadErr != nil {
+		return uploadErr
+	}
+	for i := 0; i < len(tag_id); i += 1 {
+		addTagErr := db.database.Raw("call ADD_TAG(?, ?, ?)", artID, tag_id[i], tag_name[i]).Error
+		if addTagErr != nil {
+			return addTagErr
+		}
+	}
+	return nil
 }
 
-func (db *GromDB) EditArtwork(userID, artID, artName, artDesc, artTag, url string) error {
+func (db *GromDB) EditArtwork(userID, artID, artName, artDesc, url string, tag_id, tag_name []string) error {
 	/**
-	IN PAINTPLZUSERID VARCHAR(100),
+		CREATE PROCEDURE ART_EDIT (
+		IN ARTWORKID VARCHAR(100),
+		IN ARTWORKNAME VARCHAR(100),
+		IN ARTWORKDESCRIPTION TEXT(500),
+		IN ARTWORKURL VARCHAR(100)
+	)	*/
+	editErr := db.database.Raw("call ART_EDIT(?, ?, ?, ?)", artID, artName, artDesc, url).Error
+	if editErr != nil {
+		return editErr
+	}
+	/**
+	CREATE PROCEDURE ART_TAG_EDIT (
 	IN ARTWORKID VARCHAR(100),
-	IN ARTWORKNAME VARCHAR(30),
-	IN ARTWORKDESCRIPTION TEXT(500)
-	IN ARTWORKTAGIDLIST VARCHAR(300)
-	IN ARTWORKURL VARCHAR(100)
+	IN ARTWORKTAGID VARCHAR(100)
+	IN ARTWORKTAGNAME VARCHAR(100)
 	*/
-	return db.database.Raw("call ART_EDIT(? ? ? ? ? ?)", userID, artID, artName, artDesc, artTag, url).Error
+	for i := 0; i < len(tag_id); i += 1 {
+		editTagErr := db.database.Raw("call ART_TAG_EDIT(?, ?, ?)", artID, tag_id[i], tag_name[i]).Error
+		if editTagErr != nil {
+			return editTagErr
+		}
+	}
+	return nil
 }
 
 func (db *GromDB) DeleteArtwork(artworkID, artistUserID string) error {
