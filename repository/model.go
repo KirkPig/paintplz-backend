@@ -52,3 +52,11 @@ type Tag struct {
 	TagID   string `gorm:"column:TAG_ID"`
 	TagName string `gorm:"column:TAG_NAME"`
 }
+
+type SearchArtistResponse struct {
+	UserID   string  `json:"userID"`
+	Username string  `json:"username"`
+	Name     string  `json:"name"`
+	Surname  string  `json:"surname"`
+	Rating   float32 `json:"rating"`
+}

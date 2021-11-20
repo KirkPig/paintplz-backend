@@ -32,6 +32,38 @@ func (db *GromDB) RegisterArtist(user_id, username, name, surname, email, citize
 	return err
 }
 
+func (db *GromDB) SeartArtist(name string, minPrice float64, maxPrice float64, minRate, maxRate float32, tag_name []string) (SearchArtistResponse, error) {
+	query := `SELECT  A.ARTIST_USER_ID,
+        U.NAME,
+        U.SURNAME,
+        A.RATING
+		FROM    ARTIST A LEFT JOIN PAINTPLZ_USER U 
+		ON U.PAINTPLZ_USER_ID = A.ARTIST_USER_ID
+		WHERE     LOCATE(?, U.NAME) > 0 AND
+        ? <= A.MIN_PRICE AND
+        ? >= A.MAX_PRICE AND
+        ? <= A.RATING AND
+        ? >= A.RATING AND
+        (? = "" OR EXISTS(
+            SELECT W.ARTIST_USER_ID
+            FROM ARTWORK W, ARTWORK_ARTTAG AA, ART_TAG T
+            WHERE     A.ARTIST_USER_ID = W.ARTIST_USER_ID AND
+                    W.ART_ID = AA.TAG_ID AND
+                    T.TAG_ID = AA.TAG_ID AND
+                    FIND_IN_SET(T.TAG_NAME, ?) > 0
+        ))`
+	tags := ""
+	for i := 0; i < len(tag_name); i++ {
+		tags += tag_name[i]
+		if i+1 < len(tag_name) {
+			tags += ","
+		}
+	}
+	var result SearchArtistResponse
+	err := db.database.Raw(query, name, minPrice, maxPrice, minRate, maxRate, tags).Scan(&result).Error
+	return result, err
+}
+
 func (db *GromDB) RegisterCustomer(user_id, username, name, surname, email, citizenID, password string) error {
 	var newUser RegisterDBResponse
 	err := db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",

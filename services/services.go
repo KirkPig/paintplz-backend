@@ -150,6 +150,7 @@ func (s *Service) ArtistProfile(userID string) (ArtistProfileResponse, error) {
 
 }
 
+
 func (s *Service) GetAllTag() ([]Tag, error) {
 	response, err := s.database.GetAllTag()
 	var t []Tag
@@ -167,5 +168,14 @@ func (s *Service) GetAllTag() ([]Tag, error) {
 	}
 
 	return t, nil
+
+func (s *Service) SearchAritst(req SearchArtistRequest) (repository.SearchArtistResponse, error) {
+	/// name string, minPrice float64, maxPrice, float64, minRate float32, maxRate float32, tag_name []string
+	to_name := make([]string, len(req.Tags))
+	for id, x := range req.Tags {
+		to_name[id] = x.TagName
+	}
+	response, err := s.database.SeartArtist(req.ArtistName, *req.MinPriceRate, *req.MaxPriceRate, *req.MinRating, *req.MaxRating, to_name)
+	return response, err
 
 }
