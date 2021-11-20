@@ -120,16 +120,14 @@ func (h *Handler) UploadArtworkHandler(c *gin.Context) {
 		})
 		return
 	}
-	err := h.service.UploadArtwork(req)
+	result, err := h.service.UploadArtwork(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "upload successfully",
-	})
+	c.JSON(http.StatusOK, result)
 }
 
 func (h *Handler) EditArtworkHandler(c *gin.Context) {
@@ -142,16 +140,14 @@ func (h *Handler) EditArtworkHandler(c *gin.Context) {
 		return
 	}
 
-	err := h.service.EditArtwork(req)
+	result, err := h.service.EditArtwork(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "upload successfully",
-	})
+	c.JSON(http.StatusOK, result)
 
 }
 
