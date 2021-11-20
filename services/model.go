@@ -100,3 +100,7 @@ type ArtistProfileResponse struct {
 	Biography       string            `json:"biography"`
 	ArtWorkResponse []ArtWorkResponse `json:"artworks"`
 }
+
+type Logger struct {
+	Log string `json:"log"`
+}
