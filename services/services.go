@@ -26,7 +26,7 @@ func (s *Service) Register(req RegisterRequest) error {
 		err = s.database.RegisterArtist(new_uuid.String(), req.Username, req.Name, req.Surname, req.Email, req.CitizenID, req.Password,
 			req.MinPriceRate, req.MaxPriceRate, req.Biography)
 	} else {
-		err = s.database.RegisterCustomer()
+		err = s.database.RegisterCustomer(new_uuid.String(), req.Username, req.Name, req.Surname, req.Email, req.CitizenID, req.Password)
 	}
 
 	return err

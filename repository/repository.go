@@ -33,8 +33,23 @@ func (db *GromDB) RegisterArtist(user_id, username, name, surname, email, citize
 	return nil
 }
 
-func (db *GromDB) RegisterCustomer() error {
+func (db *GromDB) RegisterCustomer(user_id, username, name, surname, email, citizenID, password string) error {
 
+	db.database.Raw("Call Register(@user_id, @username, @name, @surname, @email, @citizenID, @password, @usertype, @minPrice, @maxPrice, @biography)",
+		map[string]interface{}{
+			"user_id":   user_id,
+			"username":  username,
+			"name":      name,
+			"surname":   surname,
+			"email":     email,
+			"citizenID": citizenID,
+			"password":  password,
+			"usertype":  "customer",
+			"minPrice":  nil,
+			"maxPrice":  nil,
+			"biography": nil,
+		},
+	)
 	return nil
 }
 
