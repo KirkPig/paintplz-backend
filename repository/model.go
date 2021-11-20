@@ -7,7 +7,7 @@ type LoginDBResponse struct {
 	Surname      string  `json:"surname"`
 	Email        string  `json:"email"`
 	CitizenID    string  `json:"citizenID"`
-	UserType     bool    `json:"userType"`
+	UserType     string  `json:"userType"`
 	MinPriceRate float64 `json:"minPriceRate"`
 	MaxPriceRate float64 `json:"maxPriceRate"`
 	Biography    string  `json:"biography"`
