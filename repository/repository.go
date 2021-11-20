@@ -60,7 +60,7 @@ func (db *GromDB) SeartArtist(name string, minPrice float64, maxPrice float64, m
 		}
 	}
 	var result SearchArtistResponse
-	err := db.database.Raw(query, name, minPrice, maxPrice, minRate, maxRate, tags).Scan(&result).Error
+	err := db.database.Raw(query, name, minPrice, maxPrice, minRate, maxRate, tags, tags).Scan(&result).Error
 	return result, err
 }
 
