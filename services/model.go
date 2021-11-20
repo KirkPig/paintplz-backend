@@ -63,12 +63,12 @@ type LoginResponse struct {
 }
 
 type SearchArtistRequest struct {
-	ArtistName   string   `json:"artistName"`
-	MinPriceRate *float64 `json:"minPriceRate"`
-	MaxPriceRate *float64 `json:"maxPriceRate"`
-	MinRating    *float32 `json:"minRating"`
-	MaxRating    *float32 `json:"maxRating"`
-	Tags         []Tag    `json:"tags"`
+	ArtistName   string  `json:"artistName"`
+	MinPriceRate float64 `json:"minPriceRate"`
+	MaxPriceRate float64 `json:"maxPriceRate"`
+	MinRating    float32 `json:"minRating"`
+	MaxRating    float32 `json:"maxRating"`
+	Tags         []Tag   `json:"tags"`
 }
 
 type SearchResultResponse struct {

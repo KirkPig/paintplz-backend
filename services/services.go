@@ -174,7 +174,7 @@ func (s *Service) SearchAritst(req SearchArtistRequest) (repository.SearchArtist
 	for id, x := range req.Tags {
 		to_name[id] = x.TagName
 	}
-	response, err := s.database.SeartArtist(req.ArtistName, *req.MinPriceRate, *req.MaxPriceRate, *req.MinRating, *req.MaxRating, to_name)
+	response, err := s.database.SeartArtist(req.ArtistName, req.MinPriceRate, req.MaxPriceRate, req.MinRating, req.MaxRating, to_name)
 	return response, err
 
 }
