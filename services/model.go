@@ -71,12 +71,15 @@ type SearchArtistRequest struct {
 	Tags         []Tag   `json:"tags"`
 }
 
-type SearchResultResponse struct {
+type SearchResult struct {
 	UserID   string  `json:"userID"`
-	Username string  `json:"username"`
 	Name     string  `json:"name"`
 	Surname  string  `json:"surname"`
 	Rating   float32 `json:"rating"`
+}
+
+type SearchResultResponse struct {
+	SearchResult []SearchResult 	`json:"searchResult"`
 }
 
 type ArtworkResponse struct {
