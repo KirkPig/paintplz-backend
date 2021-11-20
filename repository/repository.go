@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"log"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -13,7 +15,8 @@ func New(db *gorm.DB) *GromDB {
 }
 
 func (db *GromDB) RegisterArtist(user_id, username, name, surname, email, citizenID, password string, minPrice, maxPrice float64, biography string) error {
-	db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+	var newUser RegisterDBResponse
+	err := db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		user_id,
 		username,
 		name,
@@ -25,13 +28,13 @@ func (db *GromDB) RegisterArtist(user_id, username, name, surname, email, citize
 		minPrice,
 		maxPrice,
 		biography,
-	)
-	return nil
+	).Scan(&newUser).Error
+	return err
 }
 
 func (db *GromDB) RegisterCustomer(user_id, username, name, surname, email, citizenID, password string) error {
-
-	db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+	var newUser RegisterDBResponse
+	err := db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 
 		user_id,
 		username,
@@ -44,9 +47,9 @@ func (db *GromDB) RegisterCustomer(user_id, username, name, surname, email, citi
 		nil,
 		nil,
 		nil,
-	)
+	).Scan(&newUser).Error
 
-	return nil
+	return err
 }
 
 func (db *GromDB) Login(username, password string) (LoginDBResponse, error) {
@@ -68,6 +71,8 @@ ON U.PAINTPLZ_USER_ID = A.ARTIST_USER_ID
 WHERE U.USERNAME = ? AND U.PASSWORD = ?`
 
 	err := db.database.Raw(query, username, password).Scan(&loginQuery).Error
+
+	log.Println(loginQuery)
 
 	return loginQuery, err
 }

@@ -33,9 +33,33 @@ func (s *Service) Register(req RegisterRequest) error {
 
 }
 
-func (s *Service) Login(req LoginRequest) (repository.LoginDBResponse, error) {
+func (s *Service) Login(req LoginRequest) (LoginResponse, error) {
 	response, err := s.database.Login(req.Username, req.Password)
-	return response, err
+
+	if response.UserType == "artist" {
+		return LoginResponse{
+			UserID:       response.UserID,
+			Username:     response.Username,
+			Name:         response.Name,
+			Surname:      response.Surname,
+			Email:        response.Email,
+			CitizenID:    response.CitizenID,
+			UserType:     true,
+			MinPriceRate: response.MinPriceRate,
+			MaxPriceRate: response.MaxPriceRate,
+			Biography:    response.Biography,
+		}, err
+	}
+
+	return LoginResponse{
+		UserID:    response.UserID,
+		Username:  response.Username,
+		Name:      response.Name,
+		Surname:   response.Surname,
+		Email:     response.Email,
+		CitizenID: response.CitizenID,
+		UserType:  false,
+	}, err
 }
 
 func (s *Service) ArtistProfile(userID string) (ArtistProfileResponse, error) {

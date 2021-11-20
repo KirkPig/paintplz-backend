@@ -1,6 +1,7 @@
 package services
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -23,7 +24,9 @@ func (h *Handler) RegisterHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "Handler error",
 		})
+		return
 	}
+	log.Println(req)
 	err := h.service.Register(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -47,8 +50,8 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 	}
 	response, err := h.service.Login(req)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: err.Error(),
 		})
 		return
 	}
@@ -63,6 +66,7 @@ func (h *Handler) SearchArtistHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "Handler error",
 		})
+		return
 	}
 
 }
@@ -78,6 +82,7 @@ func (h *Handler) UploadArtworkHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "Handler error",
 		})
+		return
 	}
 
 }
@@ -89,6 +94,7 @@ func (h *Handler) EditArtworkHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "Handler error",
 		})
+		return
 	}
 
 }
@@ -100,6 +106,7 @@ func (h *Handler) DeleteArtworkHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "Handler error",
 		})
+		return
 	}
 
 }
