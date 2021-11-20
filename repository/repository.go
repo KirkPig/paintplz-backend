@@ -74,3 +74,47 @@ WHERE U.USERNAME = ? AND U.PASSWORD = ?`
 
 	return loginQuery, err
 }
+
+func (db *GromDB) GetArtistByID(userID string) (Artist, error) {
+
+	var artist Artist
+
+	query := `SELECT	U.USERNAME, 
+	U.NAME, 
+	U.SURNAME, 
+	U.EMAIL, 
+	U.CITIZEN_ID,
+	U.PROFILE_URL,
+	U.USER_TYPE, 
+	A.MIN_PRICE, 
+	A.MAX_PRICE, 
+	A.BIOGRAPHY
+FROM PAINTPLZ_USER U, ARTIST A
+WHERE U.PAINTPLZ_USER_ID = @ArtistID AND A.ARTIST_USER_ID = @ArtistID;`
+
+	err := db.database.Raw(query, userID, userID).Scan(&artist).Error
+
+	return artist, err
+
+}
+
+func (db *GromDB) GetArtistArtwork(userID string) ([]ArtworkDB, error) {
+
+	var artwork []ArtworkDB
+
+	query := `SELECT  W.ART_ID,
+	W.ART_TITLE,
+	W.ART_DESC,
+	W.UPLOAD_DATE,
+	W.ART_URL,
+	T.TAG_ID,
+	T.TAG_NAME
+FROM ARTWORK W, ART_TAG T, ARTWORK_ARTTAG AA
+WHERE W.ARTIST_USER_ID = ? AND W.ART_ID = AA.ART_ID AND T.TAG_ID = AA.TAG_ID
+ORDER BY W.ART_ID DESC, T.TAG_ID;`
+
+	err := db.database.Raw(query, userID).Scan(&artwork).Error
+
+	return artwork, err
+
+}

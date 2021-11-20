@@ -80,7 +80,7 @@ type SearchResultResponse struct {
 	Rating   float32 `json:"rating"`
 }
 
-type ArtWorkResponse struct {
+type ArtworkResponse struct {
 	ArtWorkID   string `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
@@ -98,7 +98,7 @@ type ArtistProfileResponse struct {
 	MinPriceRate    float64           `json:"minPriceRate"`
 	MaxPriceRate    float64           `json:"maxPriceRate"`
 	Biography       string            `json:"biography"`
-	ArtWorkResponse []ArtWorkResponse `json:"artworks"`
+	ArtWorkResponse []ArtworkResponse `json:"artworks"`
 }
 
 type Logger struct {
