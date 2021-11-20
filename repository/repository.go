@@ -164,3 +164,25 @@ func (db *GromDB) GetAllTag() ([]Tag, error) {
 	return tags, err
 
 }
+
+func (db *GromDB) UploadArtwork(userID, artID, artTitle, artDesc, tagID, tagName, url string) error {
+	return db.database.Raw("call Upload(?, ?, ?, ?, ?, ?, ?)", userID, artID, artTitle, artDesc, tagID, url).Error
+}
+
+func (db *GromDB) EditArtwork(userID, artID, artName, artDesc, artTag, url string) error {
+	/**
+	IN PAINTPLZUSERID VARCHAR(100),
+	IN ARTWORKID VARCHAR(100),
+	IN ARTWORKNAME VARCHAR(30),
+	IN ARTWORKDESCRIPTION TEXT(500)
+	IN ARTWORKTAGIDLIST VARCHAR(300)
+	IN ARTWORKURL VARCHAR(100)
+	*/
+	return db.database.Raw("call ART_EDIT(? ? ? ? ? ?)", userID, artID, artName, artDesc, artTag, url).Error
+}
+
+func (db *GromDB) DeleteArtwork(artworkID, artistUserID string) error {
+	query := `DELETE FROM ARTWORK where Art_id = ? and  artistUserID = ?`
+
+	return db.database.Raw(query, artworkID, artistUserID).Error
+}
