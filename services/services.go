@@ -32,3 +32,8 @@ func (s *Service) Register(req RegisterRequest) error {
 	return err
 
 }
+
+func (s *Service) Login(req LoginRequest) (repository.LoginDBResponse, error) {
+	response, err := s.database.Login(req.Username, req.Password)
+	return response, err
+}

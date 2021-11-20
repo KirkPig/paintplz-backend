@@ -50,14 +50,32 @@ func (db *GromDB) RegisterCustomer(user_id, username, name, surname, email, citi
 			"biography": nil,
 		},
 	)
+
 	return nil
 }
 
 func (db *GromDB) Login(username, password string) (LoginDBResponse, error) {
 
 	var loginQuery LoginDBResponse
+	query := `SELECT	U.PAINTPLZ_USER_ID, 
+	U.USERNAME, 
+	U.NAME, 
+	U.SURNAME, 
+	U.EMAIL, 
+	U.CITIZEN_ID, 
+	U.USER_TYPE, 
+	A.MIN_PRICE, 
+	A.MAX_PRICE, 
+	A.BIOGRAPHY
+FROM PAINTPLZ_USER U LEFT JOIN ARTIST A
+WHERE U.USERNAME = @Username AND U.PASSWORD = @Password
+ON U.PAINTPLZ_USER_ID = A.ARTIST_USER_ID"`
 
-	err := db.database.Raw("", username, password).Scan(&loginQuery).Error
+	err := db.database.Raw(query,
+		map[string]interface{}{
+			"Username": username,
+			"Password": password,
+		}).Scan(&loginQuery).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return loginQuery, nil
