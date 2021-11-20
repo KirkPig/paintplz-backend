@@ -92,6 +92,23 @@ func (h *Handler) SearchArtistHandler(c *gin.Context) {
 
 func (h *Handler) GetArtistProfileHandler(c *gin.Context) {
 
+	user_id := c.Param("user_id")
+
+	log.Println(user_id)
+
+	response, err := h.service.ArtistProfile(user_id)
+
+	log.Println(response)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "Response failed",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, response)
+
 }
 
 func (h *Handler) UploadArtworkHandler(c *gin.Context) {
@@ -161,5 +178,16 @@ func (h *Handler) DeleteArtworkHandler(c *gin.Context) {
 }
 
 func (h *Handler) GetTagsHandler(c *gin.Context) {
+
+	tags, err := h.service.GetAllTag()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "Failed tp fetch",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, tags)
 
 }
