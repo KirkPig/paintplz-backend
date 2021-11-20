@@ -1,6 +1,8 @@
 package services
 
-import "github.com/KirkPig/paintplz-backend/repository"
+import (
+	"github.com/KirkPig/paintplz-backend/repository"
+)
 
 type Service struct {
 	database repository.GromDB
@@ -14,12 +16,14 @@ func NewService(db repository.GromDB) *Service {
 
 func (s *Service) Register(req RegisterRequest) error {
 
-	err := s.database.Register()
+	var err error
 
-	if err != nil {
-
+	if req.UserType {
+		err = s.database.RegisterArtist()
+	} else {
+		err = s.database.RegisterCustomer()
 	}
 
-	return nil
+	return err
 
 }

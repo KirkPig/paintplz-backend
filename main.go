@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/KirkPig/paintplz-backend/repository"
 	"github.com/KirkPig/paintplz-backend/services"
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
@@ -16,17 +17,18 @@ func main() {
 
 	defer database.Close()
 
+	handler := services.NewHandler(*services.NewService(*repository.New(database)))
 	router := gin.Default()
 	v1paintPlz := router.Group("api/paintplz/v1")
 	{
-		v1paintPlz.POST("/register", services.RegisterHandler)
-		v1paintPlz.POST("/login", services.LoginHandler)
-		v1paintPlz.POST("/search_artist", services.SearchArtistHandler)
-		v1paintPlz.GET("/artist_profile/:user_id", services.GetArtistProfileHandler)
-		v1paintPlz.POST("/artist_profile/artwork/upload", services.UploadArtworkHandler)
-		v1paintPlz.POST("/artist_profile/artwork/edit", services.EditArtworkHandler)
-		v1paintPlz.POST("/artist_profile/artwork/delete", services.DeleteArtworkHandler)
-		v1paintPlz.GET("/tags", services.GetTagsHandler)
+		v1paintPlz.POST("/register", handler.RegisterHandler)
+		v1paintPlz.POST("/login", handler.LoginHandler)
+		v1paintPlz.POST("/search_artist", handler.SearchArtistHandler)
+		v1paintPlz.GET("/artist_profile/:user_id", handler.GetArtistProfileHandler)
+		v1paintPlz.POST("/artist_profile/artwork/upload", handler.UploadArtworkHandler)
+		v1paintPlz.POST("/artist_profile/artwork/edit", handler.EditArtworkHandler)
+		v1paintPlz.POST("/artist_profile/artwork/delete", handler.DeleteArtworkHandler)
+		v1paintPlz.GET("/tags", handler.GetTagsHandler)
 	}
 
 	router.Run("localhost:1323")

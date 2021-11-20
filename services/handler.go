@@ -16,7 +16,7 @@ func NewHandler(s Service) *Handler {
 	}
 }
 
-func RegisterHandler(c *gin.Context) {
+func (h *Handler) RegisterHandler(c *gin.Context) {
 
 	var req RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -27,7 +27,7 @@ func RegisterHandler(c *gin.Context) {
 
 }
 
-func LoginHandler(c *gin.Context) {
+func (h *Handler) LoginHandler(c *gin.Context) {
 
 	var req LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -38,7 +38,7 @@ func LoginHandler(c *gin.Context) {
 
 }
 
-func SearchArtistHandler(c *gin.Context) {
+func (h *Handler) SearchArtistHandler(c *gin.Context) {
 
 	var req SearchArtistRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -49,11 +49,11 @@ func SearchArtistHandler(c *gin.Context) {
 
 }
 
-func GetArtistProfileHandler(c *gin.Context) {
+func (h *Handler) GetArtistProfileHandler(c *gin.Context) {
 
 }
 
-func UploadArtworkHandler(c *gin.Context) {
+func (h *Handler) UploadArtworkHandler(c *gin.Context) {
 
 	var req UploadArtworkRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -64,7 +64,7 @@ func UploadArtworkHandler(c *gin.Context) {
 
 }
 
-func EditArtworkHandler(c *gin.Context) {
+func (h *Handler) EditArtworkHandler(c *gin.Context) {
 
 	var req EditArtworkRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -75,7 +75,7 @@ func EditArtworkHandler(c *gin.Context) {
 
 }
 
-func DeleteArtworkHandler(c *gin.Context) {
+func (h *Handler) DeleteArtworkHandler(c *gin.Context) {
 
 	var req DeleteArtworkRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -86,6 +86,6 @@ func DeleteArtworkHandler(c *gin.Context) {
 
 }
 
-func GetTagsHandler(c *gin.Context) {
+func (h *Handler) GetTagsHandler(c *gin.Context) {
 
 }

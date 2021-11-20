@@ -14,7 +14,11 @@ func New(db *gorm.DB) *GromDB {
 	return &GromDB{database: db}
 }
 
-func (db *GromDB) Register() error {
+func (db *GromDB) RegisterArtist() error {
+	return nil
+}
+
+func (db *GromDB) RegisterCustomer() error {
 	return nil
 }
 
