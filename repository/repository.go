@@ -60,7 +60,7 @@ func (db *GromDB) Login(username, password string) (LoginDBResponse, error) {
 	query := `SELECT	U.PAINTPLZ_USER_ID, 
 	U.USERNAME, 
     U.NAME, 
-	U.SURNAME, 
+	U.SURNAME,
 	U.EMAIL, 
 	U.CITIZEN_ID, 
 	U.USER_TYPE, 
