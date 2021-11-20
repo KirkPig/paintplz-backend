@@ -24,3 +24,11 @@ type LoginDBResponse struct {
 	MaxPriceRate float64 `json:"maxPriceRate"`
 	Biography    string  `json:"biography"`
 }
+
+type SearchArtistResponse struct {
+	UserID   string  `json:"userID"`
+	Username string  `json:"username"`
+	Name     string  `json:"name"`
+	Surname  string  `json:"surname"`
+	Rating   float32 `json:"rating"`
+}
