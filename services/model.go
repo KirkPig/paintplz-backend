@@ -93,6 +93,7 @@ type ArtistProfileResponse struct {
 	Username        string            `json:"username"`
 	Name            string            `json:"name"`
 	Surname         string            `json:"surname"`
+	ProfileUrl      string            `json:"profileUrl"`
 	Rating          float32           `json:"rating"`
 	MinPriceRate    float64           `json:"minPriceRate"`
 	MaxPriceRate    float64           `json:"maxPriceRate"`

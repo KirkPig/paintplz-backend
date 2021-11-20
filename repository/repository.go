@@ -92,7 +92,7 @@ func (db *GromDB) GetArtistByID(userID string) (Artist, error) {
 	A.MAX_PRICE, 
 	A.BIOGRAPHY
 FROM PAINTPLZ_USER U, ARTIST A
-WHERE U.PAINTPLZ_USER_ID = @ArtistID AND A.ARTIST_USER_ID = @ArtistID;`
+WHERE U.PAINTPLZ_USER_ID = ? AND A.ARTIST_USER_ID = ?;`
 
 	err := db.database.Raw(query, userID, userID).Scan(&artist).Error
 
@@ -118,5 +118,17 @@ ORDER BY W.ART_ID DESC, T.TAG_ID;`
 	err := db.database.Raw(query, userID).Scan(&artwork).Error
 
 	return artwork, err
+
+}
+
+func (db *GromDB) GetAllTag() ([]Tag, error) {
+
+	var tags []Tag
+	query := `SELECT TAG_ID, TAG_NAME
+	FROM ART_TAG;`
+
+	err := db.database.Raw(query).Scan(&tags).Error
+
+	return tags, err
 
 }
