@@ -6,6 +6,7 @@ import (
 
 	"github.com/KirkPig/paintplz-backend/repository"
 	"github.com/KirkPig/paintplz-backend/services"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -19,6 +20,9 @@ func main() {
 
 	handler := services.NewHandler(*services.NewService(*repository.New(database)))
 	router := gin.Default()
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	router.Use(cors.New(config))
 	v1paintPlz := router.Group("api/paintplz/v1")
 	{
 		v1paintPlz.POST("/register", handler.RegisterHandler)

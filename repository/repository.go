@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"log"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -13,7 +15,8 @@ func New(db *gorm.DB) *GromDB {
 }
 
 func (db *GromDB) RegisterArtist(user_id, username, name, surname, email, citizenID, password string, minPrice, maxPrice float64, biography string) error {
-	db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+	var newUser RegisterDBResponse
+	err := db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		user_id,
 		username,
 		name,
@@ -25,13 +28,13 @@ func (db *GromDB) RegisterArtist(user_id, username, name, surname, email, citize
 		minPrice,
 		maxPrice,
 		biography,
-	)
-	return nil
+	).Scan(&newUser).Error
+	return err
 }
 
 func (db *GromDB) RegisterCustomer(user_id, username, name, surname, email, citizenID, password string) error {
-
-	db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+	var newUser RegisterDBResponse
+	err := db.database.Raw("Call Register(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 
 		user_id,
 		username,
@@ -44,9 +47,9 @@ func (db *GromDB) RegisterCustomer(user_id, username, name, surname, email, citi
 		nil,
 		nil,
 		nil,
-	)
+	).Scan(&newUser).Error
 
-	return nil
+	return err
 }
 
 func (db *GromDB) Login(username, password string) (LoginDBResponse, error) {
@@ -69,6 +72,8 @@ WHERE U.USERNAME = ? AND U.PASSWORD = ?`
 
 	err := db.database.Raw(query, username, password).Scan(&loginQuery).Error
 
+	log.Println(loginQuery)
+
 	return loginQuery, err
 }
 
@@ -87,7 +92,7 @@ func (db *GromDB) GetArtistByID(userID string) (Artist, error) {
 	A.MAX_PRICE, 
 	A.BIOGRAPHY
 FROM PAINTPLZ_USER U, ARTIST A
-WHERE U.PAINTPLZ_USER_ID = @ArtistID AND A.ARTIST_USER_ID = @ArtistID;`
+WHERE U.PAINTPLZ_USER_ID = ? AND A.ARTIST_USER_ID = ?;`
 
 	err := db.database.Raw(query, userID, userID).Scan(&artist).Error
 
@@ -113,5 +118,17 @@ ORDER BY W.ART_ID DESC, T.TAG_ID;`
 	err := db.database.Raw(query, userID).Scan(&artwork).Error
 
 	return artwork, err
+
+}
+
+func (db *GromDB) GetAllTag() ([]Tag, error) {
+
+	var tags []Tag
+	query := `SELECT TAG_ID, TAG_NAME
+	FROM ART_TAG;`
+
+	err := db.database.Raw(query).Scan(&tags).Error
+
+	return tags, err
 
 }
