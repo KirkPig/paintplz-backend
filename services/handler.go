@@ -24,7 +24,16 @@ func (h *Handler) RegisterHandler(c *gin.Context) {
 			Log: "Handler error",
 		})
 	}
-
+	err := h.service.Register(req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "registered successfully",
+	})
 }
 
 func (h *Handler) LoginHandler(c *gin.Context) {
