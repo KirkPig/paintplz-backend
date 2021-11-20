@@ -173,6 +173,8 @@ func (h *Handler) GetTagsHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, tags)
+	c.JSON(http.StatusOK, GetTagResponse{
+		Tags: tags,
+	})
 
 }

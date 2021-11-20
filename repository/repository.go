@@ -32,7 +32,7 @@ func (db *GromDB) RegisterArtist(user_id, username, name, surname, email, citize
 	return err
 }
 
-func (db *GromDB) SeartArtist(name string, minPrice float64, maxPrice float64, minRate, maxRate float32, tag_name []string) (SearchArtistResponse, error) {
+func (db *GromDB) SeartArtist(name string, minPrice float64, maxPrice float64, minRate, maxRate float32, tag_name []string) ([]SearchArtistResponse, error) {
 	query := `SELECT  A.ARTIST_USER_ID,
         U.NAME,
         U.SURNAME,
@@ -59,7 +59,7 @@ func (db *GromDB) SeartArtist(name string, minPrice float64, maxPrice float64, m
 			tags += ","
 		}
 	}
-	var result SearchArtistResponse
+	var result []SearchArtistResponse
 	err := db.database.Raw(query, name, minPrice, maxPrice, minRate, maxRate, tags, tags).Scan(&result).Error
 	return result, err
 }

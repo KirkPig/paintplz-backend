@@ -170,14 +170,30 @@ func (s *Service) GetAllTag() ([]Tag, error) {
 
 }
 
-func (s *Service) SearchArtist(req SearchArtistRequest) (repository.SearchArtistResponse, error) {
+func (s *Service) SearchArtist(req SearchArtistRequest) (SearchResultResponse, error) {
 	/// name string, minPrice float64, maxPrice, float64, minRate float32, maxRate float32, tag_name []string
 	to_name := make([]string, len(req.Tags))
 	for id, x := range req.Tags {
 		to_name[id] = x.TagName
 	}
 	response, err := s.database.SeartArtist(req.ArtistName, float64(req.MinPriceRate), float64(req.MaxPriceRate), req.MinRating, req.MaxRating, to_name)
-	return response, err
+	
+	var sr []SearchResult
+
+	sr = make([]SearchResult, 0)
+
+	for _, val := range response {
+		sr = append(sr, SearchResult{
+			UserID: val.UserID,
+			Name: val.Name,
+			Surname: val.Surname,
+			Rating: val.Rating,
+		})
+	}
+
+	return SearchResultResponse{
+		SearchResult: sr,
+	}, err
 
 }
 
