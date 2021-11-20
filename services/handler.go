@@ -43,6 +43,7 @@ func (h *Handler) LoginHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &Logger{
 			Log: "Handler error",
 		})
+		return
 	}
 	response, err := h.service.Login(req)
 	if err != nil {
