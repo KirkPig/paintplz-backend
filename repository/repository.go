@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"errors"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -62,24 +60,17 @@ func (db *GromDB) Login(username, password string) (LoginDBResponse, error) {
     U.NAME, 
 	U.SURNAME,
 	U.EMAIL, 
-	U.CITIZEN_ID, 
+	U.CITIZEN_ID,
+	U.PROFILE_URL,
 	U.USER_TYPE, 
 	A.MIN_PRICE, 
 	A.MAX_PRICE, 
 	A.BIOGRAPHY
 FROM PAINTPLZ_USER U LEFT JOIN ARTIST A
 ON U.PAINTPLZ_USER_ID = A.ARTIST_USER_ID
-WHERE U.USERNAME = @Username AND U.PASSWORD = @Password`
+WHERE U.USERNAME = ? AND U.PASSWORD = ?`
 
-	err := db.database.Raw(query,
-		map[string]interface{}{
-			"Username": username,
-			"Password": password,
-		}).Scan(&loginQuery).Error
+	err := db.database.Raw(query, username, password).Scan(&loginQuery).Error
 
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return loginQuery, nil
-	} else {
-		return loginQuery, err
-	}
+	return loginQuery, err
 }
