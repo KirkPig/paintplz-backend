@@ -80,7 +80,7 @@ func (h *Handler) SearchArtistHandler(c *gin.Context) {
 	if req.MinRating == nil {
 		*req.MinRating = 0
 	}
-	result, err := h.service.SearchAritst(req)
+	result, err := h.service.SearchArtist(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
