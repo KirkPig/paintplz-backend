@@ -180,3 +180,34 @@ func (s *Service) SearchArtist(req SearchArtistRequest) (repository.SearchArtist
 	return response, err
 
 }
+
+func (s *Service) UploadArtwork(req UploadArtworkRequest) (repository.ArtworkDB, error) {
+	///userID, artID, artTitle, artDesc, tagID, url
+	artUUID, err := uuid.NewV4()
+	if err != nil {
+		panic(err)
+	}
+	tag_id := make([]string, len(req.ArtTag))
+	tag_name := make([]string, len(req.ArtTag))
+	for i := 0; i < len(req.ArtTag); i += 1 {
+		tag_id[i] = req.ArtTag[i].TagId
+		tag_name[i] = req.ArtTag[i].TagName
+	}
+	response, err := s.database.UploadArtwork(req.UserID, artUUID.String(), req.ArtworkName, req.ArtworkDescription, req.ArtworkUrl, tag_id, tag_name)
+	return response, err
+}
+
+func (s *Service) EditArtwork(req EditArtworkRequest) (repository.ArtworkDB, error) {
+	tag_id := make([]string, len(req.ArtTag))
+	tag_name := make([]string, len(req.ArtTag))
+	for i := 0; i < len(req.ArtTag); i += 1 {
+		tag_id[i] = req.ArtTag[i].TagId
+		tag_name[i] = req.ArtTag[i].TagName
+	}
+	response, err := s.database.EditArtwork(req.UserID, req.ArtworkID, req.ArtworkName, req.ArtworkDescription, req.ArtworkUrl, tag_id, tag_name)
+	return response, err
+}
+
+func (s *Service) DeleteArtwork(req DeleteArtworkRequest) error {
+	return s.database.DeleteArtwork(req.ArtworkID, req.UserID)
+}
