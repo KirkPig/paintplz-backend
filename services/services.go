@@ -168,7 +168,7 @@ func (s *Service) GetAllTag() ([]Tag, error) {
 
 	return t, nil
 }
-func (s *Service) SearchAritst(req SearchArtistRequest) (repository.SearchArtistResponse, error) {
+func (s *Service) SearchAritst(req SearchArtistRequest) ([]repository.SearchArtistResponse, error) {
 	/// name string, minPrice float64, maxPrice, float64, minRate float32, maxRate float32, tag_name []string
 	to_name := make([]string, len(req.Tags))
 	for id, x := range req.Tags {

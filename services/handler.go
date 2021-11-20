@@ -69,13 +69,8 @@ func (h *Handler) SearchArtistHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.service.SearchAritst(req)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
-		})
-		return
-	}
+	result, _ := h.service.SearchAritst(req)
+
 	c.JSON(http.StatusOK, result)
 }
 
