@@ -59,7 +59,7 @@ func (db *GromDB) Login(username, password string) (LoginDBResponse, error) {
 	var loginQuery LoginDBResponse
 	query := `SELECT	U.PAINTPLZ_USER_ID, 
 	U.USERNAME, 
-	U.NAME, 
+    U.NAME, 
 	U.SURNAME, 
 	U.EMAIL, 
 	U.CITIZEN_ID, 
@@ -69,7 +69,7 @@ func (db *GromDB) Login(username, password string) (LoginDBResponse, error) {
 	A.BIOGRAPHY
 FROM PAINTPLZ_USER U LEFT JOIN ARTIST A
 WHERE U.USERNAME = @Username AND U.PASSWORD = @Password
-ON U.PAINTPLZ_USER_ID = A.ARTIST_USER_ID"`
+ON U.PAINTPLZ_USER_ID = A.ARTIST_USER_ID`
 
 	err := db.database.Raw(query,
 		map[string]interface{}{
