@@ -54,9 +54,8 @@ type Tag struct {
 }
 
 type SearchArtistResponse struct {
-	UserID   string  `json:"userID"`
-	Username string  `json:"username"`
-	Name     string  `json:"name"`
-	Surname  string  `json:"surname"`
-	Rating   float32 `json:"rating"`
+	UserID  string  `gorm:"column:ARTIST_USER_ID"  json:"userID"`
+	Name    string  `gorm:"column:NAME" json:"name"`
+	Surname string  `gorm:"column:SURNAME" json:"surname"`
+	Rating  float32 `gorm:"column:RATING" json:"rating"`
 }
