@@ -149,3 +149,23 @@ func (s *Service) ArtistProfile(userID string) (ArtistProfileResponse, error) {
 	return profile, nil
 
 }
+
+func (s *Service) GetAllTag() ([]Tag, error) {
+	response, err := s.database.GetAllTag()
+	var t []Tag
+	t = make([]Tag, 0)
+
+	if err != nil {
+		return t, err
+	}
+
+	for _, val := range response {
+		t = append(t, Tag{
+			TagId:   val.TagID,
+			TagName: val.TagName,
+		})
+	}
+
+	return t, nil
+
+}
