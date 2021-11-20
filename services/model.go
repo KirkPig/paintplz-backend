@@ -32,16 +32,16 @@ type Tag struct {
 }
 
 type RegisterRequest struct {
-	Username     string  `json:"username" binding:"required"`
-	Name         string  `json:"name" binding:"required"`
-	Surname      string  `json:"surname" binding:"required"`
-	Email        string  `json:"email" binding:"required"`
-	CitizenID    string  `json:"citizenID" binding:"required"`
-	Password     string  `json:"password" binding:"required"`
-	UserType     bool    `json:"userType" binding:"required"`
-	MinPriceRate float64 `json:"minPriceRate"`
-	MaxPriceRate float64 `json:"maxPriceRate"`
-	Biography    string  `json:"biography"`
+	Username     string  `json:"username"`
+	Name         string  `json:"name"`
+	Surname      string  `json:"surname"`
+	Email        string  `json:"email"`
+	CitizenID    string  `json:"citizenID"`
+	Password     string  `json:"password"`
+	UserType     bool    `json:"userType"`
+	MinPriceRate float64 `json:"minimumPriceRate,omitempty"`
+	MaxPriceRate float64 `json:"maximumPriceRate,omitempty"`
+	Biography    string  `json:"biography,omitempty"`
 }
 
 type LoginRequest struct {
@@ -56,11 +56,10 @@ type LoginResponse struct {
 	Surname      string  `json:"surname" binding:"required"`
 	Email        string  `json:"email" binding:"required"`
 	CitizenID    string  `json:"citizenID" binding:"required"`
-	Password     string  `json:"password" binding:"required"`
 	UserType     bool    `json:"userType" binding:"required"`
-	MinPriceRate float64 `json:"minPriceRate"`
-	MaxPriceRate float64 `json:"maxPriceRate"`
-	Biography    string  `json:"biography"`
+	MinPriceRate float64 `json:"minPriceRate,omitempty"`
+	MaxPriceRate float64 `json:"maxPriceRate,omitempty"`
+	Biography    string  `json:"biography,omitempty"`
 }
 
 type SearchArtistRequest struct {
@@ -80,7 +79,7 @@ type SearchResultResponse struct {
 	Rating   float32 `json:"rating"`
 }
 
-type ArtWorkResponse struct {
+type ArtworkResponse struct {
 	ArtWorkID   string `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
@@ -94,11 +93,12 @@ type ArtistProfileResponse struct {
 	Username        string            `json:"username"`
 	Name            string            `json:"name"`
 	Surname         string            `json:"surname"`
+	ProfileUrl      string            `json:"profileUrl"`
 	Rating          float32           `json:"rating"`
 	MinPriceRate    float64           `json:"minPriceRate"`
 	MaxPriceRate    float64           `json:"maxPriceRate"`
 	Biography       string            `json:"biography"`
-	ArtWorkResponse []ArtWorkResponse `json:"artworks"`
+	ArtWorkResponse []ArtworkResponse `json:"artworks"`
 }
 
 type Logger struct {
