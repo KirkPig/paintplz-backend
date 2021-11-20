@@ -69,7 +69,7 @@ func (h *Handler) SearchArtistHandler(c *gin.Context) {
 		return
 	}
 	if req.MaxPriceRate == nil {
-		*req.MaxPriceRate = 1000000000000
+		*req.MaxPriceRate = 1000000
 	}
 	if req.MinPriceRate == nil {
 		*req.MinPriceRate = 0
