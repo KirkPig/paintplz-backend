@@ -146,11 +146,14 @@ func (h *Handler) EditArtworkHandler(c *gin.Context) {
 		return
 	}
 
+	log.Println(req)
+
 	result, err := h.service.EditArtwork(req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -171,10 +174,11 @@ func (h *Handler) DeleteArtworkHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "upload successfully",
+		"message": "delete successfully",
 	})
 
 }

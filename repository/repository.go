@@ -144,8 +144,10 @@ func (db *GromDB) GetArtistArtwork(userID string) ([]ArtworkDB, error) {
 	W.ART_URL,
 	T.TAG_ID,
 	T.TAG_NAME
-FROM ARTWORK W, ART_TAG T, ARTWORK_ARTTAG AA
-WHERE W.ARTIST_USER_ID = ? AND W.ART_ID = AA.ART_ID AND T.TAG_ID = AA.TAG_ID
+FROM ARTWORK W 
+LEFT JOIN ARTWORK_ARTTAG AA ON W.ART_ID = AA.ART_ID 
+LEFT JOIN ART_TAG T ON T.TAG_ID = AA.TAG_ID
+WHERE W.ARTIST_USER_ID = ?
 ORDER BY W.ART_ID DESC, T.TAG_ID;`
 
 	err := db.database.Raw(query, userID).Scan(&artwork).Error
@@ -174,9 +176,9 @@ func (db *GromDB) UploadArtwork(userID, artID, artTitle, artDesc, url string, ta
 	VALUES (@artId, @artUrl, @artTitle, @artDesc, @userID)`
 	*/
 	var result ArtworkDB
-	uploadErr := db.database.Raw(query, artID, url, artTitle, artDesc, userID).Scan(&result).Error
-	if uploadErr != nil {
-		return result, uploadErr
+	err := db.database.Exec(query, artID, url, artTitle, artDesc, userID).Error
+	if err != nil {
+		return result, err
 	}
 	for i := 0; i < len(tag_id); i += 1 {
 		addTagErr := db.database.Raw("call ADD_TAG(?, ?, ?)", artID, tag_id[i], tag_name[i]).Scan(&result).Error
@@ -187,7 +189,7 @@ func (db *GromDB) UploadArtwork(userID, artID, artTitle, artDesc, url string, ta
 	return result, nil
 }
 
-func (db *GromDB) EditArtwork(userID, artID, artName, artDesc, url string, tag_id, tag_name []string) (ArtworkDB, error) {
+func (db *GromDB) EditArtwork(userID, artID, artName, artDesc, url string, tag_id, tag_name []string) (Artwork, error) {
 	/**
 		CREATE PROCEDURE ART_EDIT (
 		IN ARTWORKID VARCHAR(100),
@@ -195,7 +197,7 @@ func (db *GromDB) EditArtwork(userID, artID, artName, artDesc, url string, tag_i
 		IN ARTWORKDESCRIPTION TEXT(500),
 		IN ARTWORKURL VARCHAR(100)
 	)	*/
-	var result ArtworkDB
+	var result Artwork
 	editErr := db.database.Raw("call ART_EDIT(?, ?, ?, ?)", artID, artName, artDesc, url).Scan(&result).Error
 	if editErr != nil {
 		return result, editErr
@@ -206,6 +208,7 @@ func (db *GromDB) EditArtwork(userID, artID, artName, artDesc, url string, tag_i
 	IN ARTWORKTAGID VARCHAR(100)
 	IN ARTWORKTAGNAME VARCHAR(100)
 	*/
+
 	for i := 0; i < len(tag_id); i += 1 {
 		editTagErr := db.database.Raw("call ART_TAG_EDIT(?, ?, ?)", artID, tag_id[i], tag_name[i]).Scan(&result).Error
 		if editTagErr != nil {
@@ -216,7 +219,7 @@ func (db *GromDB) EditArtwork(userID, artID, artName, artDesc, url string, tag_i
 }
 
 func (db *GromDB) DeleteArtwork(artworkID, artistUserID string) error {
-	query := `DELETE FROM ARTWORK where Art_id = ? and  artistUserID = ?`
+	query := `DELETE FROM ARTWORK where ART_ID = ? and  ARTIST_USER_ID = ?`
 
-	return db.database.Raw(query, artworkID, artistUserID).Error
+	return db.database.Exec(query, artworkID, artistUserID).Error
 }
