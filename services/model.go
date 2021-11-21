@@ -72,10 +72,11 @@ type SearchArtistRequest struct {
 }
 
 type SearchResult struct {
-	UserID  string  `json:"userID"`
-	Name    string  `json:"name"`
-	Surname string  `json:"surname"`
-	Rating  float32 `json:"rating"`
+	UserID     string  `json:"userID"`
+	Name       string  `json:"name"`
+	Surname    string  `json:"surname"`
+	Rating     float32 `json:"rating"`
+	ProfileUrl string  `json:"profileUrl"`
 }
 
 type SearchResultResponse struct {

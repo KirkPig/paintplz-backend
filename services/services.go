@@ -181,10 +181,11 @@ func (s *Service) SearchArtist(req SearchArtistRequest) (SearchResultResponse, e
 	result.SearchResult = make([]SearchResult, len(response))
 	for i := 0; i < len(response); i += 1 {
 		result.SearchResult[i] = SearchResult{
-			UserID:  response[i].UserID,
-			Name:    response[i].Name,
-			Surname: response[i].Surname,
-			Rating:  response[i].Rating,
+			UserID:     response[i].UserID,
+			Name:       response[i].Name,
+			Surname:    response[i].Surname,
+			Rating:     response[i].Rating,
+			ProfileUrl: response[i].ProfileUrl,
 		}
 	}
 	return result, err
