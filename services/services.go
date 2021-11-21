@@ -208,7 +208,7 @@ func (s *Service) UploadArtwork(req UploadArtworkRequest) (repository.ArtworkDB,
 	return response, err
 }
 
-func (s *Service) EditArtwork(req EditArtworkRequest) (repository.ArtworkDB, error) {
+func (s *Service) EditArtwork(req EditArtworkRequest) (repository.Artwork, error) {
 	tag_id := make([]string, len(req.ArtTag))
 	tag_name := make([]string, len(req.ArtTag))
 	for i := 0; i < len(req.ArtTag); i += 1 {

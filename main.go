@@ -4,7 +4,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/KirkPig/paintplz-backend/mongo_repository"
 	"github.com/KirkPig/paintplz-backend/repository"
 	"github.com/KirkPig/paintplz-backend/services"
 	"github.com/gin-contrib/cors"
@@ -19,7 +18,7 @@ func main() {
 
 	defer database.Close()
 
-	mongo_repository.Init()
+	//mongo_repository.Init()
 	//// sample use of mongodb
 	/*
 		ctx, cancel := repository.GetContext()
