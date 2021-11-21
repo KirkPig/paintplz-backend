@@ -93,16 +93,17 @@ type ArtworkResponse struct {
 }
 
 type ArtistProfileResponse struct {
-	UserID          string            `json:"userID"`
-	Username        string            `json:"username"`
-	Name            string            `json:"name"`
-	Surname         string            `json:"surname"`
-	ProfileUrl      string            `json:"profileUrl"`
-	Rating          float32           `json:"rating"`
-	MinPriceRate    float64           `json:"minimumPriceRate"`
-	MaxPriceRate    float64           `json:"maximumPriceRate"`
-	Biography       string            `json:"biography"`
-	ArtWorkResponse []ArtworkResponse `json:"artworks"`
+	UserID               string            `json:"userID"`
+	Username             string            `json:"username"`
+	Name                 string            `json:"name"`
+	Surname              string            `json:"surname"`
+	ProfileUrl           string            `json:"profileUrl"`
+	Rating               float32           `json:"rating"`
+	MinPriceRate         float64           `json:"minimumPriceRate"`
+	MaxPriceRate         float64           `json:"maximumPriceRate"`
+	Biography            string            `json:"biography"`
+	ArtWorkResponse      []ArtworkResponse `json:"artworks"`
+	MongoArtworkResponse []ArtworkResponse `json:"mongoArtworks"`
 }
 
 type Logger struct {

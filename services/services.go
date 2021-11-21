@@ -1,7 +1,12 @@
 package services
 
 import (
+	"log"
+	"time"
+
+	"github.com/KirkPig/paintplz-backend/mongo_repository"
 	"github.com/KirkPig/paintplz-backend/repository"
+	"github.com/globalsign/mgo/bson"
 	uuid "github.com/nu7hatch/gouuid"
 )
 
@@ -146,6 +151,13 @@ func (s *Service) ArtistProfile(userID string) (ArtistProfileResponse, error) {
 		ArtWorkResponse: artworks,
 	}
 
+	mongoResult, err := s.GetArtworkMongo(userID)
+	profile.ArtWorkResponse = mongoResult
+	if err != nil {
+		log.Println("mongo failed artwork")
+		return profile, err
+	}
+
 	return profile, nil
 
 }
@@ -188,6 +200,7 @@ func (s *Service) SearchArtist(req SearchArtistRequest) (SearchResultResponse, e
 			ProfileUrl: response[i].ProfileUrl,
 		}
 	}
+
 	return result, err
 
 }
@@ -205,6 +218,7 @@ func (s *Service) UploadArtwork(req UploadArtworkRequest) (repository.ArtworkDB,
 		tag_name[i] = req.ArtTag[i].TagName
 	}
 	response, err := s.database.UploadArtwork(req.UserID, artUUID.String(), req.ArtworkName, req.ArtworkDescription, req.ArtworkUrl, tag_id, tag_name)
+	s.UploadArtworkMongo(req)
 	return response, err
 }
 
@@ -223,6 +237,52 @@ func (s *Service) DeleteArtwork(req DeleteArtworkRequest) error {
 	return s.database.DeleteArtwork(req.ArtworkID, req.UserID)
 }
 
-func (s *Service) UploadArtworkMongo(req UploadArtworkRequest) {
+func (s *Service) UploadArtworkMongo(req UploadArtworkRequest) error {
+	artwork := mongo_repository.ArtworkMongo{
+		ArtworkID:    bson.NewObjectId().String(),
+		ArtistUserID: req.UserID,
+		Title:        req.ArtworkName,
+		Description:  req.ArtworkDescription,
+		UploadDate:   time.Now(),
+		ArtworkUrl:   req.ArtworkUrl,
+	}
+	artwork.Tags = make([]mongo_repository.TagsMongo, len(req.ArtTag))
+	for i := 0; i < len(req.ArtTag); i += 1 {
+		artwork.Tags[i] = mongo_repository.TagsMongo{
+			TagID:   req.ArtTag[i].TagId,
+			TagName: req.ArtTag[i].TagName,
+		}
+	}
+	ctx, cancel := mongo_repository.GetContext()
+	defer cancel()
+	_, err := mongo_repository.ArtworkCollection.InsertOne(ctx, artwork)
+	return err
+}
 
+func (s *Service) GetArtworkMongo(artistID string) ([]ArtworkResponse, error) {
+	ctx, cancel := mongo_repository.GetContext()
+	defer cancel()
+	filter := bson.M{}
+	filter["user_id"] = artistID
+	cur, err := mongo_repository.ArtworkCollection.Find(ctx, filter)
+	var result []mongo_repository.ArtworkMongo
+	cur.All(ctx, &result)
+	res := make([]ArtworkResponse, len(result))
+	for i := 0; i < len(result); i += 1 {
+		res[i] = ArtworkResponse{
+			ArtWorkID:   result[i].ArtworkID,
+			Title:       result[i].Title,
+			Description: result[i].Description,
+			UploadDate:  result[i].UploadDate.String(),
+			Url:         result[i].ArtworkUrl,
+		}
+		res[i].Tags = make([]Tag, len(result[i].Tags))
+		for j := 0; j < len(result[i].Tags); j += 1 {
+			res[i].Tags[j] = Tag{
+				TagId:   result[i].Tags[j].TagID,
+				TagName: result[i].Tags[j].TagName,
+			}
+		}
+	}
+	return res, err
 }
