@@ -199,3 +199,20 @@ func (h *Handler) GetTagsHandler(c *gin.Context) {
 	})
 
 }
+
+func (h *Handler) UploadArtworkMongo(c *gin.Context) {
+	var req UploadArtworkRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, &Logger{
+			Log: "Handler error",
+		})
+	}
+	artwork, err := h.service.UploadArtworkMongo(req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		},
+		)
+	}
+	c.JSON(http.StatusOK, artwork)
+}

@@ -62,6 +62,7 @@ func main() {
 		v1paintPlz.POST("/artist_profile/artwork/edit", handler.EditArtworkHandler)
 		v1paintPlz.POST("/artist_profile/artwork/delete", handler.DeleteArtworkHandler)
 		v1paintPlz.GET("/tags", handler.GetTagsHandler)
+		v1paintPlz.POST("artist_profile/artwork/upload_mongo", handler.UploadArtworkMongo)
 	}
 
 	router.Run("localhost:1323")
