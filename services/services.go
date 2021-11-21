@@ -176,24 +176,18 @@ func (s *Service) SearchArtist(req SearchArtistRequest) (SearchResultResponse, e
 	for id, x := range req.Tags {
 		to_name[id] = x.TagName
 	}
-	response, err := s.database.SeartArtist(req.ArtistName, float64(req.MinPriceRate), float64(req.MaxPriceRate), req.MinRating, req.MaxRating, to_name)
-
-	var sr []SearchResult
-
-	sr = make([]SearchResult, 0)
-
-	for _, val := range response {
-		sr = append(sr, SearchResult{
-			UserID:  val.UserID,
-			Name:    val.Name,
-			Surname: val.Surname,
-			Rating:  val.Rating,
-		})
+	response, err := s.database.SeartArtist(req.ArtistName, float64(*req.MinPriceRate), float64(*req.MaxPriceRate), *req.MinRating, *req.MaxRating, to_name)
+	var result SearchResultResponse
+	result.SearchResult = make([]SearchResult, len(response))
+	for i := 0; i < len(response); i += 1 {
+		result.SearchResult[i] = SearchResult{
+			UserID:  response[i].UserID,
+			Name:    response[i].Name,
+			Surname: response[i].Surname,
+			Rating:  response[i].Rating,
+		}
 	}
-
-	return SearchResultResponse{
-		SearchResult: sr,
-	}, err
+	return result, err
 
 }
 
