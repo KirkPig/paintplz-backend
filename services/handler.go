@@ -85,8 +85,13 @@ func (h *Handler) SearchArtistHandler(c *gin.Context) {
 		*req.MaxRating = 5.1
 	}
 
-	result, _ := h.service.SearchAritst(req)
-
+	result, err := h.service.SearchArtist(req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, result)
 }
 
@@ -125,6 +130,7 @@ func (h *Handler) UploadArtworkHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -184,6 +190,8 @@ func (h *Handler) GetTagsHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, tags)
+	c.JSON(http.StatusOK, GetTagResponse{
+		Tags: tags,
+	})
 
 }

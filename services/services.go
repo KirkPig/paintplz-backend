@@ -167,15 +167,17 @@ func (s *Service) GetAllTag() ([]Tag, error) {
 	}
 
 	return t, nil
+
 }
-func (s *Service) SearchAritst(req SearchArtistRequest) (SearchResultReponse, error) {
+func (s *Service) SearchArtist(req SearchArtistRequest) (SearchResultResponse, error) {
+
 	/// name string, minPrice float64, maxPrice, float64, minRate float32, maxRate float32, tag_name []string
 	to_name := make([]string, len(req.Tags))
 	for id, x := range req.Tags {
 		to_name[id] = x.TagName
 	}
 	response, err := s.database.SeartArtist(req.ArtistName, float64(*req.MinPriceRate), float64(*req.MaxPriceRate), *req.MinRating, *req.MaxRating, to_name)
-	var result SearchResultReponse
+	var result SearchResultResponse
 	result.SearchResult = make([]SearchResult, len(response))
 	for i := 0; i < len(response); i += 1 {
 		result.SearchResult[i] = SearchResult{

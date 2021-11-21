@@ -78,7 +78,7 @@ type SearchResult struct {
 	Rating  float32 `json:"rating"`
 }
 
-type SearchResultReponse struct {
+type SearchResultResponse struct {
 	SearchResult []SearchResult `json:"searchResult"`
 }
 
