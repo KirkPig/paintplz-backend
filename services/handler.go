@@ -114,6 +114,7 @@ func (h *Handler) UploadArtworkHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, result)

@@ -177,17 +177,17 @@ func (s *Service) SearchArtist(req SearchArtistRequest) (SearchResultResponse, e
 		to_name[id] = x.TagName
 	}
 	response, err := s.database.SeartArtist(req.ArtistName, float64(req.MinPriceRate), float64(req.MaxPriceRate), req.MinRating, req.MaxRating, to_name)
-	
+
 	var sr []SearchResult
 
 	sr = make([]SearchResult, 0)
 
 	for _, val := range response {
 		sr = append(sr, SearchResult{
-			UserID: val.UserID,
-			Name: val.Name,
+			UserID:  val.UserID,
+			Name:    val.Name,
 			Surname: val.Surname,
-			Rating: val.Rating,
+			Rating:  val.Rating,
 		})
 	}
 
