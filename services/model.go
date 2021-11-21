@@ -84,12 +84,12 @@ type SearchResultResponse struct {
 }
 
 type ArtworkResponse struct {
-	ArtWorkID   string `json:"id"`
+	ArtWorkID   string `json:"artworkID"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	UploadDate  string `json:"uploadDate"`
 	Url         string `json:"url"`
-	Tags        []Tag  `json:"tags"`
+	Tags        []Tag  `json:"artTag"`
 }
 
 type ArtistProfileResponse struct {
@@ -99,8 +99,8 @@ type ArtistProfileResponse struct {
 	Surname         string            `json:"surname"`
 	ProfileUrl      string            `json:"profileUrl"`
 	Rating          float32           `json:"rating"`
-	MinPriceRate    float64           `json:"minPriceRate"`
-	MaxPriceRate    float64           `json:"maxPriceRate"`
+	MinPriceRate    float64           `json:"minimumPriceRate"`
+	MaxPriceRate    float64           `json:"maximumPriceRate"`
 	Biography       string            `json:"biography"`
 	ArtWorkResponse []ArtworkResponse `json:"artworks"`
 }

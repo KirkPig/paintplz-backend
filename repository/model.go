@@ -48,6 +48,14 @@ type ArtworkDB struct {
 	TagName     string `gorm:"column:TAG_NAME"`
 }
 
+type Artwork struct {
+	ArtworkID   string `gorm:"column:ART_ID"`
+	Title       string `gorm:"column:ART_TITLE"`
+	Description string `gorm:"column:ART_DESC"`
+	UploadDate  string `gorm:"column:UPLOAD_DATE"`
+	ArtworkUrl  string `gorm:"column:ART_URL"`
+}
+
 type Tag struct {
 	TagID   string `gorm:"column:TAG_ID"`
 	TagName string `gorm:"column:TAG_NAME"`
