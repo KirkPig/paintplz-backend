@@ -152,7 +152,7 @@ func (s *Service) ArtistProfile(userID string) (ArtistProfileResponse, error) {
 	}
 
 	mongoResult, err := s.GetArtworkMongo(userID)
-	profile.ArtWorkResponse = mongoResult
+	profile.MongoArtworkResponse = mongoResult
 	if err != nil {
 		log.Println("mongo failed artwork")
 		return profile, err
@@ -239,7 +239,7 @@ func (s *Service) DeleteArtwork(req DeleteArtworkRequest) error {
 
 func (s *Service) UploadArtworkMongo(req UploadArtworkRequest) error {
 	artwork := mongo_repository.ArtworkMongo{
-		ArtworkID:    bson.NewObjectId().String(),
+		ArtworkID:    bson.NewObjectId().Hex(),
 		ArtistUserID: req.UserID,
 		Title:        req.ArtworkName,
 		Description:  req.ArtworkDescription,
@@ -263,7 +263,7 @@ func (s *Service) GetArtworkMongo(artistID string) ([]ArtworkResponse, error) {
 	ctx, cancel := mongo_repository.GetContext()
 	defer cancel()
 	filter := bson.M{}
-	filter["user_id"] = artistID
+	filter["artist_id"] = artistID
 	cur, err := mongo_repository.ArtworkCollection.Find(ctx, filter)
 	var result []mongo_repository.ArtworkMongo
 	cur.All(ctx, &result)
