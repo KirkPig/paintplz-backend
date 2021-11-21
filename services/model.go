@@ -63,20 +63,23 @@ type LoginResponse struct {
 }
 
 type SearchArtistRequest struct {
-	ArtistName   string  `json:"artistName"`
-	MinPriceRate int64   `json:"minPriceRate"`
-	MaxPriceRate int64   `json:"maxPriceRate"`
-	MinRating    float32 `json:"minRating"`
-	MaxRating    float32 `json:"maxRating"`
-	Tags         []Tag   `json:"tags"`
+	ArtistName   string   `json:"artistName"`
+	MinPriceRate *int64   `json:"minimumPriceRate"`
+	MaxPriceRate *int64   `json:"maximumPriceRate"`
+	MinRating    *float32 `json:"minimumRating"`
+	MaxRating    *float32 `json:"maximumRating"`
+	Tags         []Tag    `json:"tags"`
 }
 
-type SearchResultResponse struct {
-	UserID   string  `json:"userID"`
-	Username string  `json:"username"`
-	Name     string  `json:"name"`
-	Surname  string  `json:"surname"`
-	Rating   float32 `json:"rating"`
+type SearchResult struct {
+	UserID  string  `json:"userID"`
+	Name    string  `json:"name"`
+	Surname string  `json:"surname"`
+	Rating  float32 `json:"rating"`
+}
+
+type SearchResultReponse struct {
+	SearchResult []SearchResult `json:"searchResult"`
 }
 
 type ArtworkResponse struct {

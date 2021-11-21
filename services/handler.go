@@ -68,6 +68,22 @@ func (h *Handler) SearchArtistHandler(c *gin.Context) {
 		})
 		return
 	}
+	if req.MinPriceRate == nil {
+		req.MinPriceRate = new(int64)
+		*req.MinPriceRate = 0
+	}
+	if req.MaxPriceRate == nil {
+		req.MaxPriceRate = new(int64)
+		*req.MaxPriceRate = 1000000
+	}
+	if req.MinRating == nil {
+		req.MinRating = new(float32)
+		*req.MinRating = 0.0
+	}
+	if req.MaxRating == nil {
+		req.MaxRating = new(float32)
+		*req.MaxRating = 5.1
+	}
 
 	result, _ := h.service.SearchAritst(req)
 
