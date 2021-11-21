@@ -222,3 +222,7 @@ func (s *Service) EditArtwork(req EditArtworkRequest) (repository.ArtworkDB, err
 func (s *Service) DeleteArtwork(req DeleteArtworkRequest) error {
 	return s.database.DeleteArtwork(req.ArtworkID, req.UserID)
 }
+
+func (s *Service) UploadArtworkMongo(req UploadArtworkRequest) {
+
+}
