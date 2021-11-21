@@ -18,6 +18,34 @@ func main() {
 
 	defer database.Close()
 
+	repository.Init()
+	//// sample use of mongodb
+	/*
+		ctx, cancel := repository.GetContext()
+		artwork := repository.ArtworkMongo{
+			ArtworkID:   "65432132131",
+			Title:       "my first artwork",
+			Description: "strongest artwork",
+			UploadDate:  "1-1-2021",
+			ArtworkUrl:  "https://yt3.ggpht.com/ytc/AKedOLRnmGhH8h_Le-nLsSZwx7K0pgRA0Zdr8bU9XgXkkw=s900-c-k-c0x00ffffff-no-rj",
+			Tags: []repository.TagsMongo{
+				{
+					TagID:   "1",
+					TagName: "3d",
+				},
+				{
+					TagID:   "5",
+					TagName: "4d",
+				},
+			},
+		}
+		_, err := repository.ArtworkCollection.InsertOne(ctx, artwork)
+		defer cancel()
+		if err != nil {
+			log.Println("What happend " + err.Error())
+		}*/
+	//	repository.ArtworkCollection.InsertOne(c)
+
 	handler := services.NewHandler(*services.NewService(*repository.New(database)))
 	router := gin.Default()
 	config := cors.DefaultConfig()
