@@ -1,4 +1,4 @@
-package repository
+package mongo_repository
 
 type ArtworkMongo struct {
 	ArtworkID   string      `bson:"_id"`
