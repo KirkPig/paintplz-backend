@@ -36,7 +36,8 @@ func (db *GromDB) SeartArtist(name string, minPrice float64, maxPrice float64, m
 	query := `SELECT  A.ARTIST_USER_ID,
         U.NAME,
         U.SURNAME,
-        A.RATING
+        A.RATING,
+		U.PROFILE_URL
 		FROM    ARTIST A LEFT JOIN PAINTPLZ_USER U 
 		ON U.PAINTPLZ_USER_ID = A.ARTIST_USER_ID
 		WHERE     LOCATE(?, U.NAME) > 0 AND
