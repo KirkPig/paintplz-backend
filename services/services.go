@@ -188,7 +188,7 @@ func (s *Service) SearchArtist(req SearchArtistRequest) (SearchResultResponse, e
 	for id, x := range req.Tags {
 		to_name[id] = x.TagName
 	}
-	response, err := s.database.SeartArtist(req.ArtistName, float64(*req.MinPriceRate), float64(*req.MaxPriceRate), *req.MinRating, *req.MaxRating, to_name)
+	response, err := s.database.SearchArtist(req.ArtistName, float64(*req.MinPriceRate), float64(*req.MaxPriceRate), *req.MinRating, *req.MaxRating, to_name)
 	var result SearchResultResponse
 	result.SearchResult = make([]SearchResult, len(response))
 	for i := 0; i < len(response); i += 1 {

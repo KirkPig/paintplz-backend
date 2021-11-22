@@ -32,7 +32,7 @@ func (db *GromDB) RegisterArtist(user_id, username, name, surname, email, citize
 	return err
 }
 
-func (db *GromDB) SeartArtist(name string, minPrice float64, maxPrice float64, minRate, maxRate float32, tag_name []string) ([]SearchArtistResponse, error) {
+func (db *GromDB) SearchArtist(name string, minPrice float64, maxPrice float64, minRate, maxRate float32, tag_name []string) ([]SearchArtistResponse, error) {
 	query := `SELECT  A.ARTIST_USER_ID,
         U.NAME,
         U.SURNAME,
