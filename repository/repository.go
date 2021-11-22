@@ -60,6 +60,8 @@ func (db *GromDB) SearchArtist(name string, minPrice float64, maxPrice float64, 
 			tags += ","
 		}
 	}
+	log.Println(tags)
+	log.Println(tag_name)
 	var result []SearchArtistResponse
 	err := db.database.Raw(query, name, minPrice, maxPrice, minRate, maxRate, tags, tags).Scan(&result).Error
 	return result, err

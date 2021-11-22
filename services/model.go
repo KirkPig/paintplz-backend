@@ -68,7 +68,7 @@ type SearchArtistRequest struct {
 	MaxPriceRate *int64   `json:"maximumPriceRate"`
 	MinRating    *float32 `json:"minimumRating"`
 	MaxRating    *float32 `json:"maximumRating"`
-	Tags         []Tag    `json:"tags"`
+	Tags         []Tag    `json:"artTag"`
 }
 
 type SearchResult struct {

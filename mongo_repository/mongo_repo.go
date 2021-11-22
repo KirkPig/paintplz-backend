@@ -60,7 +60,7 @@ func GetContext() (context.Context, context.CancelFunc) {
 }
 
 func Init() {
-	config := Config{Host: "mongodb://localhost:27017", Db: "paintplzIO"}
+	config := Config{Host: "mongodb://root:123456@localhost", Db: "paintplzIO"}
 	client := NewMongoClient(config)
 	err := client.ping(context.TODO(), nil)
 	if err != nil {
