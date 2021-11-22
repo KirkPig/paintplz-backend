@@ -48,10 +48,10 @@ func (db *GromDB) SeartArtist(name string, minPrice float64, maxPrice float64, m
         (? = "" OR EXISTS(
             SELECT W.ARTIST_USER_ID
             FROM ARTWORK W, ARTWORK_ARTTAG AA, ART_TAG T
-            WHERE     A.ARTIST_USER_ID = W.ARTIST_USER_ID AND
-                    W.ART_ID = AA.TAG_ID AND
-                    T.TAG_ID = AA.TAG_ID AND
-                    FIND_IN_SET(T.TAG_NAME, ?) > 0
+			WHERE  A.ARTIST_USER_ID = W.ARTIST_USER_ID
+			AND W.ART_ID = AA.ART_ID
+			AND T.TAG_ID = AA.TAG_ID
+			AND FIND_IN_SET(T.TAG_NAME, ?) > 0); 
         ))`
 	tags := ""
 	for i := 0; i < len(tag_name); i++ {
